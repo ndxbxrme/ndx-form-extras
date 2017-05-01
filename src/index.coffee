@@ -29,7 +29,6 @@ module
           for key of @
             if Object.prototype.toString.call(@[key]) is '[object Object]'
               if @[key].item
-                console.log 'i want to save', @[key]
                 @[key].locked = false
                 @[key].save()
           @editing = false

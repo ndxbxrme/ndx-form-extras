@@ -56,7 +56,6 @@
               for (key in _this) {
                 if (Object.prototype.toString.call(_this[key]) === '[object Object]') {
                   if (_this[key].item) {
-                    console.log('i want to save', _this[key]);
                     _this[key].locked = false;
                     _this[key].save();
                   }
