@@ -11,7 +11,7 @@
     module = angular.module('ndx', []);
   }
 
-  module.run(function($rootScope, $window, ndxCheck) {
+  module.run(function($rootScope, $window, $state, ndxCheck) {
     var root;
     root = Object.getPrototypeOf($rootScope);
     root.saveFn = function(cb) {
@@ -66,6 +66,8 @@
               if (_this.redirect) {
                 if (_this.redirect === 'back') {
                   return $window.history.go(-1);
+                } else {
+                  return $state.go(_this.redirect);
                 }
               }
             }
@@ -94,6 +96,8 @@
             if (_this.redirect) {
               if (_this.redirect === 'back') {
                 return $window.history.go(-1);
+              } else {
+                return $state.go(_this.redirect);
               }
             }
           }

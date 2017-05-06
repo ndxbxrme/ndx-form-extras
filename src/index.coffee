@@ -5,7 +5,7 @@ try
 catch e
   module = angular.module 'ndx', []
 module
-.run ($rootScope, $window, ndxCheck) ->
+.run ($rootScope, $window, $state, ndxCheck) ->
   root = Object.getPrototypeOf $rootScope
   root.saveFn = (cb) ->
     cb? true
@@ -36,6 +36,8 @@ module
           if @redirect
             if @redirect is 'back'
               $window.history.go -1
+            else
+              $state.go @redirect
   root.cancel = ->
     @cancelFn (result) =>
       if result
@@ -51,6 +53,8 @@ module
         if @redirect
           if @redirect is 'back'
             $window.history.go -1
+          else
+            $state.go @redirect
   root.edit = ->
     @submitted = false
     @editing = true
