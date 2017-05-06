@@ -35,7 +35,10 @@ module
           ndxCheck.setPristine @
           if @redirect
             if @redirect is 'back'
-              $window.history.go -1
+              if $rootScope.auth
+                $rootScope.auth.goToLast()
+              else
+                $window.history.go -1
             else
               $state.go @redirect
   root.cancel = ->
@@ -52,7 +55,10 @@ module
         ndxCheck.setPristine @
         if @redirect
           if @redirect is 'back'
-            $window.history.go -1
+            if $rootScope.auth
+              $rootScope.auth.goToLast()
+            else
+              $window.history.go -1
           else
             $state.go @redirect
   root.edit = ->

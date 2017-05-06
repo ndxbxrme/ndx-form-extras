@@ -65,7 +65,11 @@
               ndxCheck.setPristine(_this);
               if (_this.redirect) {
                 if (_this.redirect === 'back') {
-                  return $window.history.go(-1);
+                  if ($rootScope.auth) {
+                    return $rootScope.auth.goToLast();
+                  } else {
+                    return $window.history.go(-1);
+                  }
                 } else {
                   return $state.go(_this.redirect);
                 }
@@ -95,7 +99,11 @@
             ndxCheck.setPristine(_this);
             if (_this.redirect) {
               if (_this.redirect === 'back') {
-                return $window.history.go(-1);
+                if ($rootScope.auth) {
+                  return $rootScope.auth.goToLast();
+                } else {
+                  return $window.history.go(-1);
+                }
               } else {
                 return $state.go(_this.redirect);
               }
