@@ -21,7 +21,7 @@
     root.cancelFn = function(cb) {
       return typeof cb === "function" ? cb(true) : void 0;
     };
-    root.save = function() {
+    root.save = function(name) {
       var checkScope, isValid;
       isValid = true;
       checkScope = function(scope) {
@@ -52,11 +52,15 @@
       if (isValid) {
         return this.saveFn((function(_this) {
           return function(result) {
-            var key;
+            var adding, key, message;
             if (result) {
+              adding = true;
               for (key in _this) {
                 if (Object.prototype.toString.call(_this[key]) === '[object Object]') {
                   if (_this[key].item) {
+                    if (_this[key].item._id) {
+                      adding = false;
+                    }
                     _this[key].locked = false;
                     _this[key].save();
                   }
@@ -64,6 +68,15 @@
               }
               _this.editing = false;
               ndxCheck.setPristine(_this);
+              message = '';
+              if (_this.messageFn) {
+                message = _this.messageFn(name + "-alerts-" + (adding ? 'added' : 'updated'));
+              } else {
+                message = adding ? 'Added' : 'Updated';
+              }
+              if (_this.alertFn) {
+                _this.alertFn(message);
+              }
               if (_this.redirect) {
                 if (_this.redirect === 'back') {
                   if ($rootScope.auth) {

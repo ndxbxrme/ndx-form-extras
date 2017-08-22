@@ -12,7 +12,7 @@ module
     cb? true
   root.cancelFn = (cb) ->
     cb? true
-  root.save = ->
+  root.save = (name) ->
     isValid = true
     checkScope = (scope) ->
       for key of scope
@@ -27,13 +27,23 @@ module
     if isValid
       @saveFn (result) =>
         if result
+          adding = true
           for key of @
             if Object.prototype.toString.call(@[key]) is '[object Object]'
               if @[key].item
+                if @[key].item._id
+                  adding = false
                 @[key].locked = false
                 @[key].save()
           @editing = false
           ndxCheck.setPristine @
+          message = ''
+          if @messageFn
+            message = @messageFn "#{name}-alerts-#{if adding then 'added' else 'updated'}"
+          else
+            message = if adding then 'Added' else 'Updated'
+          if @alertFn
+            @alertFn message          
           if @redirect
             if @redirect is 'back'
               if $rootScope.auth
