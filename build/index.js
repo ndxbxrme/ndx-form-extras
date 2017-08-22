@@ -14,6 +14,7 @@
   module.run(function($rootScope, $window, $state, ndxCheck) {
     var root;
     root = Object.getPrototypeOf($rootScope);
+    root.redirect = 'back';
     root.saveFn = function(cb) {
       return typeof cb === "function" ? cb(true) : void 0;
     };
@@ -66,7 +67,7 @@
               if (_this.redirect) {
                 if (_this.redirect === 'back') {
                   if ($rootScope.auth) {
-                    return $rootScope.auth.goToLast();
+                    return $rootScope.auth.goToLast(_this.defaultLast);
                   } else {
                     return $window.history.go(-1);
                   }
@@ -100,7 +101,7 @@
             if (_this.redirect) {
               if (_this.redirect === 'back') {
                 if ($rootScope.auth) {
-                  return $rootScope.auth.goToLast();
+                  return $rootScope.auth.goToLast(_this.defaultLast);
                 } else {
                   return $window.history.go(-1);
                 }

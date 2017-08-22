@@ -7,6 +7,7 @@ catch e
 module
 .run ($rootScope, $window, $state, ndxCheck) ->
   root = Object.getPrototypeOf $rootScope
+  root.redirect = 'back'
   root.saveFn = (cb) ->
     cb? true
   root.cancelFn = (cb) ->
@@ -36,7 +37,7 @@ module
           if @redirect
             if @redirect is 'back'
               if $rootScope.auth
-                $rootScope.auth.goToLast()
+                $rootScope.auth.goToLast @defaultLast
               else
                 $window.history.go -1
             else
@@ -56,7 +57,7 @@ module
         if @redirect
           if @redirect is 'back'
             if $rootScope.auth
-              $rootScope.auth.goToLast()
+              $rootScope.auth.goToLast @defaultLast
             else
               $window.history.go -1
           else
