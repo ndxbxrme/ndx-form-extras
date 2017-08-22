@@ -15,6 +15,6 @@
     "tests"
   ],
   "dependencies": {
-    "ndx-check-for-changes": "^0.0.3"
+    "ndx-check-for-changes": "^0.0.4"
   }
 }
