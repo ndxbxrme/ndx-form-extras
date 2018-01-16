@@ -29,6 +29,8 @@ module
         if result
           adding = true
           for key of @
+            if key.indexOf('$') is 0
+              continue
             if Object.prototype.toString.call(@[key]) is '[object Object]'
               if @[key].item
                 if @[key].item._id
@@ -52,6 +54,12 @@ module
                 $window.history.go -1
             else
               $state.go @redirect
+    else
+      if $
+        elem = $($('.error:visible')[0]).parent('.form-item')
+        if elem
+          $('html, body').animate
+            scrollTop: elem.offset().top
   root.cancel = ->
     @cancelFn (result) =>
       if result

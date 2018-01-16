@@ -22,7 +22,7 @@
       return typeof cb === "function" ? cb(true) : void 0;
     };
     root.save = function(name) {
-      var checkScope, isValid;
+      var checkScope, elem, isValid;
       isValid = true;
       checkScope = function(scope) {
         var key, results;
@@ -56,6 +56,9 @@
             if (result) {
               adding = true;
               for (key in _this) {
+                if (key.indexOf('$') === 0) {
+                  continue;
+                }
                 if (Object.prototype.toString.call(_this[key]) === '[object Object]') {
                   if (_this[key].item) {
                     if (_this[key].item._id) {
@@ -91,6 +94,15 @@
             }
           };
         })(this));
+      } else {
+        if ($) {
+          elem = $($('.error:visible')[0]).parent('.form-item');
+          if (elem) {
+            return $('html, body').animate({
+              scrollTop: elem.offset().top
+            });
+          }
+        }
       }
     };
     root.cancel = function() {
