@@ -5,7 +5,7 @@ try
 catch e
   module = angular.module 'ndx', []
 module
-.run ($rootScope, $window, $state, ndxCheck) ->
+.run ($rootScope, $window, $state, $timeout, ndxCheck) ->
   root = Object.getPrototypeOf $rootScope
   root.redirect = 'back'
   root.saveFn = (cb) ->
@@ -56,10 +56,11 @@ module
               $state.go @redirect
     else
       if $
-        elem = $($('.error:visible')[0]).parent('.form-item')
-        if elem
-          $('html, body').animate
-            scrollTop: elem.offset().top
+        $timeout ->
+          offset = $('.error:visible').parent('.form-item').offset()
+          if offset
+            $('html, body').animate
+              scrollTop: offset.top - 72
   root.cancel = ->
     @cancelFn (result) =>
       if result

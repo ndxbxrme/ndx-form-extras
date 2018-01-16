@@ -11,7 +11,7 @@
     module = angular.module('ndx', []);
   }
 
-  module.run(function($rootScope, $window, $state, ndxCheck) {
+  module.run(function($rootScope, $window, $state, $timeout, ndxCheck) {
     var root;
     root = Object.getPrototypeOf($rootScope);
     root.redirect = 'back';
@@ -22,7 +22,7 @@
       return typeof cb === "function" ? cb(true) : void 0;
     };
     root.save = function(name) {
-      var checkScope, elem, isValid;
+      var checkScope, isValid;
       isValid = true;
       checkScope = function(scope) {
         var key, results;
@@ -96,12 +96,15 @@
         })(this));
       } else {
         if ($) {
-          elem = $($('.error:visible')[0]).parent('.form-item');
-          if (elem) {
-            return $('html, body').animate({
-              scrollTop: elem.offset().top
-            });
-          }
+          return $timeout(function() {
+            var offset;
+            offset = $('.error:visible').parent('.form-item').offset();
+            if (offset) {
+              return $('html, body').animate({
+                scrollTop: offset.top - 72
+              });
+            }
+          });
         }
       }
     };
