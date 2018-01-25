@@ -28,6 +28,9 @@ module
       @saveFn (result) =>
         if result
           adding = true
+          keys = []
+          for key of @
+            keys.push key
           for key of @
             if key.indexOf('$') is 0
               continue

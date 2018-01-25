@@ -52,9 +52,13 @@
       if (isValid) {
         return this.saveFn((function(_this) {
           return function(result) {
-            var adding, key, message;
+            var adding, key, keys, message;
             if (result) {
               adding = true;
+              keys = [];
+              for (key in _this) {
+                keys.push(key);
+              }
               for (key in _this) {
                 if (key.indexOf('$') === 0) {
                   continue;
