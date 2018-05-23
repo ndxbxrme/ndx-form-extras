@@ -1,6 +1,6 @@
 {
   "name": "ndx-form-extras",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "helpful form functions for ndx-framework",
   "main": "build/index.js",
   "scripts": {

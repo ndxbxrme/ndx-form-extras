@@ -11,8 +11,9 @@
     module = angular.module('ndx', []);
   }
 
-  module.run(function($rootScope, $window, $state, $timeout, ndxCheck) {
-    var root;
+  module.run(function($rootScope, $window, $state, $timeout, $injector, $transitions, ndxCheck) {
+    var rest, root;
+    rest = $injector.get('rest');
     root = Object.getPrototypeOf($rootScope);
     root.redirect = 'back';
     root.saveFn = function(cb) {
@@ -84,6 +85,9 @@
               if (_this.alertFn) {
                 _this.alertFn(message);
               }
+              if (rest) {
+                rest.unlockAll();
+              }
               if (_this.redirect) {
                 if (_this.redirect === 'back') {
                   if ($rootScope.auth) {
@@ -130,6 +134,9 @@
               }
             }
             ndxCheck.setPristine(_this);
+            if (rest) {
+              rest.unlockAll();
+            }
             if (_this.redirect) {
               if (_this.redirect === 'back') {
                 if ($rootScope.auth) {
@@ -145,28 +152,17 @@
         };
       })(this));
     };
-    return root.edit = function() {
-      var key, results;
+    root.edit = function() {
+      rest.lockAll();
       this.submitted = false;
-      this.editing = true;
-      results = [];
-      for (key in this) {
-        if (this.hasOwnProperty(key)) {
-          if (Object.prototype.toString.call(this[key]) === '[object Object]') {
-            if (this[key].item) {
-              results.push(this[key].locked = true);
-            } else {
-              results.push(void 0);
-            }
-          } else {
-            results.push(void 0);
-          }
-        } else {
-          results.push(void 0);
-        }
-      }
-      return results;
+      return this.editing = true;
     };
+    if (rest) {
+      return $transitions.onStart({}, function(trans) {
+        rest.unlockAll();
+        return true;
+      });
+    }
   });
 
 }).call(this);
